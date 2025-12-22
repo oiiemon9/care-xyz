@@ -82,12 +82,9 @@ export default function ServiceOverview() {
 
         <div className="space-y-20 ">
           {services.map((service, index) => (
-            <div
-              key={service.id}
-              className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center bg-white border border-gray-300 p-8 rounded-3xl"
-            >
+            <div key={service.id}>
               {index % 2 === 0 ? (
-                <>
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center bg-white border border-gray-300 p-8 rounded-3xl">
                   <div className="relative h-full rounded-3xl overflow-hidden">
                     <Image
                       src={service.image}
@@ -146,10 +143,10 @@ export default function ServiceOverview() {
                       </button>
                     </div>
                   </div>
-                </>
+                </div>
               ) : (
-                <>
-                  <div className="">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center bg-white border border-gray-300 p-8 rounded-3xl">
+                  <div className="order-2 lg:order-1">
                     <div className="flex items-center gap-5 mb-8">
                       <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center">
                         <service.icon className="w-10 h-10 text-primary" />
@@ -193,7 +190,7 @@ export default function ServiceOverview() {
                     </div>
                   </div>
 
-                  <div className="relative h-full rounded-3xl overflow-hidden">
+                  <div className="order-1 lg:order-2 relative h-full rounded-3xl overflow-hidden">
                     <Image
                       src={service.image}
                       alt={service.title}
@@ -207,7 +204,7 @@ export default function ServiceOverview() {
                       <p className="text-xl opacity-90">{service.subtitle}</p>
                     </div>
                   </div>
-                </>
+                </div>
               )}
             </div>
           ))}
