@@ -32,7 +32,7 @@ export default function Hero() {
           <Image
             width={1800}
             height={1000}
-            className="lg:h-[90vh] w-full object-cover"
+            className="h-96 lg:h-[90vh] w-full object-cover"
             alt="hero image 1 "
             src="https://res.cloudinary.com/dzfrakxek/image/upload/v1766390311/2151231527_cepuae.jpg"
           />
@@ -41,7 +41,7 @@ export default function Hero() {
           <Image
             width={1800}
             height={1000}
-            className="lg:h-[90vh] w-full object-cover object-top"
+            className="h-96 lg:h-[90vh] w-full object-cover object-top"
             alt="hero image 2 "
             src="https://res.cloudinary.com/dzfrakxek/image/upload/v1766390579/115_bpjfyj.jpg"
           />
@@ -50,7 +50,7 @@ export default function Hero() {
           <Image
             width={1800}
             height={1000}
-            className="lg:h-[90vh] w-full object-cover"
+            className="h-96 lg:h-[90vh] w-full object-cover"
             alt="hero image 3"
             src="https://res.cloudinary.com/dzfrakxek/image/upload/v1766390668/63753_am0hw3.jpg"
           />
@@ -59,7 +59,7 @@ export default function Hero() {
           <Image
             width={1800}
             height={1000}
-            className="lg:h-[90vh] w-full object-cover object-top"
+            className="h-96 lg:h-[90vh] w-full object-cover object-top"
             alt="hero image 4"
             src="https://res.cloudinary.com/dzfrakxek/image/upload/v1766390757/2148962352_mwmjdb.jpg"
           />
@@ -76,9 +76,18 @@ export default function Hero() {
               children, elderly, and those in need. Safe, easy, and always
               accessible.
             </p>
-            <button className="group inline-flex items-center gap-2 bg-primary  px-8 py-4 rounded-full text-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl">
-              Book Now
-              <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+
+            <button className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold transition-all duration-150 ease-in-out rounded-full hover:pl-10 hover:pr-6  group cursor-pointer">
+              <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-secondary group-hover:h-full"></span>
+              <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
+                <ChevronRight className="w-5 h-5 " />
+              </span>
+              <span className="absolute left-0 pl-2.5 -translate-x-12 group-hover:translate-x-0 ease-out duration-200">
+                <ChevronRight className="w-5 h-5 " />
+              </span>
+              <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">
+                Book Now
+              </span>
             </button>
           </div>
         </div>
