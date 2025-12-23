@@ -8,11 +8,16 @@ import {
 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import React from 'react';
 
 export default async function serviceInfo({ params }) {
   const { service_id } = await params;
   const service = await getSingleService(service_id);
+  if (!service) {
+    notFound();
+  }
+
   const IconComponent = Icons[service?.icon];
 
   return (

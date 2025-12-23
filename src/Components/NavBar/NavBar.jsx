@@ -1,8 +1,10 @@
 import React from 'react';
 
+import NavButtons from '../Buttons/NavButtons';
+
 export default function NavBar() {
   return (
-    <div className="bg-primary">
+    <div className="bg-primary sticky top-0 z-50">
       <div className="navbar container mx-auto px-4">
         <div className="navbar-start">
           <div className="dropdown">
@@ -71,9 +73,7 @@ export default function NavBar() {
             </li>
           </ul>
         </div>
-        <div className="navbar-end">
-          <a className="btn">Button</a>
-        </div>
+        <NavButtons></NavButtons>
       </div>
     </div>
   );
