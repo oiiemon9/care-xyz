@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
@@ -118,7 +119,10 @@ export default async function serviceInfo({ params }) {
                 </div>
               </div>
 
-              <button className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold transition-all duration-150 ease-in-out rounded-full hover:pl-10 hover:pr-6  group cursor-pointer border border-secondary-300 w-full mt-10">
+              <Link
+                href={`/booking/${service._id}`}
+                className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold transition-all duration-150 ease-in-out rounded-full hover:pl-10 hover:pr-6  group cursor-pointer border border-secondary-300 w-full mt-10"
+              >
                 <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-secondary group-hover:h-full"></span>
                 <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
                   <Icons.ChevronRight className="w-5 h-5 " />
@@ -129,7 +133,7 @@ export default async function serviceInfo({ params }) {
                 <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">
                   Book This Service Now
                 </span>
-              </button>
+              </Link>
             </div>
 
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 text-center">

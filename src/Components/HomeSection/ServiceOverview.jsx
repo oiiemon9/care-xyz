@@ -22,9 +22,7 @@ export default function ServiceOverview() {
     const fetchServices = async () => {
       setLoading(true);
       try {
-        const result = await axios.get(
-          `${process.env.NEXT_PUBLIC_SITE_DOMAIN}/api/services`
-        );
+        const result = await axios.get(`/api/services`);
         setService(result.data);
       } catch (error) {
         console.error(error);
