@@ -13,60 +13,7 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import ServiceOverviewSkeleton from '../Skeleton/ServiceOverviewSkeleton';
-
-const services = [
-  {
-    id: 'baby-care',
-    title: 'Baby Care',
-    subtitle: 'Safe & Loving Care for Your Little Ones',
-    description:
-      'Our professional babysitters provide nurturing care in a safe environment. From feeding and playtime to bedtime routines, we ensure your child is happy and secure.',
-    features: [
-      'Experienced & background-checked caregivers',
-      'Flexible hours (day/night)',
-      'Activities for child development',
-      'Emergency contact system',
-    ],
-    priceRange: '৳ 800 – ৳ 1,500 per day',
-    image:
-      'https://res.cloudinary.com/dzfrakxek/image/upload/v1766400916/pediatrics-doctor-examines-baby_s2dqjv.png',
-    icon: Baby,
-  },
-  {
-    id: 'elderly-care',
-    title: 'Elderly Care',
-    subtitle: 'Compassionate Support for Seniors',
-    description:
-      'We offer personalized care for elderly loved ones, helping with daily tasks, medication reminders, companionship, and light household help.',
-    features: [
-      'Trained caregivers for seniors',
-      'Health monitoring & assistance',
-      'Companionship & conversation',
-      '24/7 availability',
-    ],
-    priceRange: '৳ 1,200 – ৳ 2,000 per day',
-    image:
-      'https://res.cloudinary.com/dzfrakxek/image/upload/v1766401044/doctor-with-old-man-wheelchair-w_aij22r.png',
-    icon: Heart,
-  },
-  {
-    id: 'sick-people-care',
-    title: 'Special Care',
-    subtitle: 'Dedicated Support for Medical Needs',
-    description:
-      'Trained caregivers provide specialized home care for individuals recovering from illness, surgery, or living with disabilities.',
-    features: [
-      'Medical assistance & monitoring',
-      'Mobility support & therapy',
-      'Personalized care plans',
-      'Hygiene & comfort focus',
-    ],
-    priceRange: '৳ 1,500 – ৳ 3,000 per day',
-    image:
-      'https://res.cloudinary.com/dzfrakxek/image/upload/v1766401142/biracial-female-doctor-examining_wse5ij.png',
-    icon: Stethoscope,
-  },
-];
+import Link from 'next/link';
 
 export default function ServiceOverview() {
   const [loading, setLoading] = useState(false);
@@ -160,7 +107,10 @@ export default function ServiceOverview() {
                       </ul>
 
                       <div className="flex gap-4">
-                        <button className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold transition-all duration-150 ease-in-out rounded-full hover:pl-10 hover:pr-6  group cursor-pointer border border-gray-300">
+                        <Link
+                          href={`service/${service._id}`}
+                          className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold transition-all duration-150 ease-in-out rounded-full hover:pl-10 hover:pr-6  group cursor-pointer border border-gray-300"
+                        >
                           <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-secondary group-hover:h-full"></span>
                           <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
                             <ChevronRight className="w-5 h-5 text-primary " />
@@ -171,7 +121,7 @@ export default function ServiceOverview() {
                           <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">
                             See Details
                           </span>
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -212,7 +162,10 @@ export default function ServiceOverview() {
                       </ul>
 
                       <div className="flex gap-4">
-                        <button className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold transition-all duration-150 ease-in-out rounded-full hover:pl-10 hover:pr-6  group cursor-pointer border border-gray-300">
+                        <Link
+                          href={`service/${service._id}`}
+                          className="relative inline-flex items-center justify-start py-3 pl-4 pr-12 overflow-hidden font-semibold transition-all duration-150 ease-in-out rounded-full hover:pl-10 hover:pr-6  group cursor-pointer border border-gray-300"
+                        >
                           <span className="absolute bottom-0 left-0 w-full h-1 transition-all duration-150 ease-in-out bg-secondary group-hover:h-full"></span>
                           <span className="absolute right-0 pr-4 duration-200 ease-out group-hover:translate-x-12">
                             <ChevronRight className="w-5 h-5 text-primary " />
@@ -223,7 +176,7 @@ export default function ServiceOverview() {
                           <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">
                             See Details
                           </span>
-                        </button>
+                        </Link>
                       </div>
                     </div>
 
