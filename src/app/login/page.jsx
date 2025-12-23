@@ -2,12 +2,13 @@
 
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 export default function Login() {
   const route = useRouter();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -15,17 +16,20 @@ export default function Login() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const result = await signIn('credentials', {
       email: data.email,
       password: data.password,
       redirect: false,
     });
+
     if (result.ok) {
       route.push('/');
       toast.success('User Login Successful');
     } else {
       toast.error('Email or Password not valid');
     }
+    setLoading(false);
   };
 
   return (
@@ -114,6 +118,9 @@ export default function Login() {
             type="submit"
             className="w-full bg-primary text-white font-medium py-3 px-4 rounded hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-colors duration-200 shadow-sm text-lg"
           >
+            {loading && (
+              <span className="loading loading-spinner text-secondary"></span>
+            )}{' '}
             Login
           </button>
         </form>

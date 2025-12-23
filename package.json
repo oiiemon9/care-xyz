@@ -12,6 +12,7 @@
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "daisyui": "^5.5.14",
+    "lottie-react": "^2.4.1",
     "lucide": "^0.562.0",
     "lucide-react": "^0.562.0",
     "mongodb": "^7.0.0",
