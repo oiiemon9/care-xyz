@@ -38,7 +38,7 @@ export default function NavButtons() {
               </a>
             </li>
             <li>
-              <a>Settings</a>
+              <Link href={'my-bookings'}>My Bookings</Link>
             </li>
             <li>
               <button

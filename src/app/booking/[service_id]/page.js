@@ -4,13 +4,16 @@ import LoaderAnimation from '@/Components/LoaderAnimation/LoaderAnimation';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { notFound, useParams } from 'next/navigation';
-import React from 'react';
+import { notFound, useParams, useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export default function BookingPage() {
   const { service_id } = useParams();
   const { data: loginUser } = useSession();
+  const [totalPrice, setTotalPrice] = useState(0);
+  const route = useRouter();
 
   const {
     register,
@@ -22,12 +25,12 @@ export default function BookingPage() {
   const selectDistricts = useWatch({ control, name: 'districts' });
 
   const getDistricts = (division) => {
-    return locationData.find((d) => d.division === division)?.districts || [];
+    return locationData?.find((d) => d.division === division)?.districts || [];
   };
 
   const getCities = (division, district) => {
     const findDistrict = getDistricts(division);
-    return findDistrict.find((d, i) => d.name === district)?.cities || [];
+    return findDistrict?.find((d, i) => d.name === district)?.cities || [];
   };
 
   const {
@@ -39,6 +42,7 @@ export default function BookingPage() {
     enabled: !!service_id,
     queryFn: async () => {
       const res = await axios.get(`/api/services/${service_id}`);
+      setTotalPrice(res?.data?.pricePerHour);
       return res.data;
     },
   });
@@ -50,7 +54,6 @@ export default function BookingPage() {
       return res.data;
     },
   });
-  console.log(locationData);
 
   if (isLoading) {
     return <LoaderAnimation></LoaderAnimation>;
@@ -59,6 +62,25 @@ export default function BookingPage() {
   if (!service) {
     notFound();
   }
+
+  const handelBooking = async (data) => {
+    const bookingInfo = data;
+    data.totalPrice = totalPrice;
+    data.status = 'Pending';
+    data.createAt = new Date().toISOString();
+    data.serviceId = service?._id;
+    data.serviceTitle = service?.title;
+
+    try {
+      const res = await axios.post('/api/bookings', bookingInfo);
+      if (res.data.insertedId) {
+        toast.success('Booking Successful');
+        route.push('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-16 max-w-4xl">
@@ -74,7 +96,7 @@ export default function BookingPage() {
           </h4>
         </div>
 
-        <form className="space-y-6 mt-8">
+        <form onSubmit={handleSubmit(handelBooking)} className="space-y-6 mt-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Full Name */}
             <div>
@@ -83,8 +105,8 @@ export default function BookingPage() {
               </label>
               <input
                 type="text"
-                required
                 defaultValue={loginUser?.user.name}
+                {...register('name')}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 placeholder="Enter your full name"
                 readOnly
@@ -98,8 +120,8 @@ export default function BookingPage() {
               </label>
               <input
                 type="email"
-                required
                 defaultValue={loginUser?.user.email}
+                {...register('email')}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
                 placeholder="your@email.com"
                 readOnly
@@ -107,17 +129,19 @@ export default function BookingPage() {
             </div>
           </div>
 
-          {/* Phone */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Phone Number *
             </label>
             <input
               type="tel"
-              required
+              {...register('number', { required: true })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
               placeholder="+880 1XXXXXXXXX"
             />
+            {errors.number?.type === 'required' && (
+              <p className="text-red-600">First name is required</p>
+            )}
           </div>
 
           {/* Preferred Date */}
@@ -127,9 +151,29 @@ export default function BookingPage() {
             </label>
             <input
               type="date"
-              required
               min={new Date().toISOString().split('T')[0]}
+              {...register('date', { required: true })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+            />
+            {errors.date?.type === 'required' && (
+              <p className="text-red-600">First name is required</p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Duration (Hour)
+            </label>
+            <input
+              type="number"
+              defaultValue={1}
+              min={1}
+              onChange={(e) =>
+                setTotalPrice(
+                  parseInt(service?.pricePerHour) * parseInt(e.target.value)
+                )
+              }
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              placeholder=""
             />
           </div>
 
@@ -141,16 +185,21 @@ export default function BookingPage() {
 
               <select
                 defaultValue=""
-                {...register('division')}
+                {...register('division', { required: true })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-white"
               >
                 <option disabled value="">
                   Pick a division
                 </option>
-                {locationData.map((division, i) => (
-                  <option key={i}>{division?.division}</option>
+                {locationData?.map((division, i) => (
+                  <option value={division?.division} key={i}>
+                    {division?.division}
+                  </option>
                 ))}
               </select>
+              {errors.division?.type === 'required' && (
+                <p className="text-red-600">First name is required</p>
+              )}
             </div>
 
             <div>
@@ -159,16 +208,21 @@ export default function BookingPage() {
               </label>
               <select
                 defaultValue=""
-                {...register('districts')}
+                {...register('districts', { required: true })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-white"
               >
                 <option disabled value="">
                   Pick a District
                 </option>
                 {getDistricts(selectDivision).map((districts, i) => (
-                  <option key={i}>{districts?.name}</option>
+                  <option value={districts?.name} key={i}>
+                    {districts?.name}
+                  </option>
                 ))}
               </select>
+              {errors.districts?.type === 'required' && (
+                <p className="text-red-600">First name is required</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -176,28 +230,38 @@ export default function BookingPage() {
               </label>
               <select
                 defaultValue=""
+                {...register('city', { required: true })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition bg-white"
               >
                 <option disabled value="">
                   Pick a City
                 </option>
-                {getCities(selectDivision, selectDistricts).map((citie, i) => (
-                  <option key={i}>{citie}</option>
+                {getCities(selectDivision, selectDistricts).map((city, i) => (
+                  <option value={city} key={i}>
+                    {city}
+                  </option>
                 ))}
               </select>
+              {errors.city?.type === 'required' && (
+                <p className="text-red-600">First name is required</p>
+              )}
             </div>
           </div>
 
           {/* Additional Message */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Additional Message (Optional)
+              Address
             </label>
             <textarea
               rows={4}
+              {...register('address', { required: true })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition resize-none"
-              placeholder="Any special requirements or notes..."
+              placeholder="Exact Address..."
             />
+            {errors.address?.type === 'required' && (
+              <p className="text-red-600">First name is required</p>
+            )}
           </div>
 
           {/* Submit Button */}
@@ -205,7 +269,7 @@ export default function BookingPage() {
             <p className="text-gray-600">
               Total Amount:{' '}
               <span className="text-2xl font-bold text-blue-600">
-                ${service?.price}
+                ${totalPrice}
               </span>
             </p>
           </div>
