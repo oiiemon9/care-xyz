@@ -14,7 +14,7 @@ import { ChevronRight } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <Swiper
         effect={'fade'}
         pagination={{
