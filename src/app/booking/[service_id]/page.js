@@ -4,16 +4,22 @@ import LoaderAnimation from '@/Components/LoaderAnimation/LoaderAnimation';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { notFound, useParams, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { notFound, useParams, usePathname, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 export default function BookingPage() {
   const { service_id } = useParams();
-  const { data: loginUser } = useSession();
+  const { data: loginUser, status } = useSession();
   const [totalPrice, setTotalPrice] = useState(0);
   const route = useRouter();
+  const path = usePathname();
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      route.replace(`/login?callbackUrl=${path}`);
+    }
+  }, [status, path]);
 
   const {
     register,

@@ -14,12 +14,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import LoaderAnimation from '@/Components/LoaderAnimation/LoaderAnimation';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function page() {
   const session = useSession();
   const router = useRouter();
   const email = session?.data?.user?.email;
+  const path = usePathname();
 
   const { data: bookings, isLoading } = useQuery({
     queryKey: ['my-bookings', email],
@@ -31,7 +33,7 @@ export default function page() {
   });
   useEffect(() => {
     if (session.status === 'unauthenticated') {
-      return router.push('/login');
+      return router.replace(`/login?callbackUrl=${path}`);
     }
   }, [session.status, router]);
 
@@ -74,10 +76,8 @@ export default function page() {
                 </p>
               </div>
 
-              {/* Main Content */}
               <div className="p-8">
                 <div className="grid md:grid-cols-2 gap-8">
-                  {/* Customer Information */}
                   <div>
                     <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                       <User className="w-6 h-6 text-blue-600" />
@@ -96,6 +96,14 @@ export default function page() {
                         <Phone className="w-5 h-5 text-gray-500" />
                         {booking.number}
                       </p>
+                    </div>
+                    <div className="mt-8">
+                      <Link
+                        href={`/service/${booking?.serviceId}`}
+                        className="btn btn-primary"
+                      >
+                        View Details
+                      </Link>
                     </div>
                   </div>
 
@@ -116,7 +124,6 @@ export default function page() {
                   </div>
                 </div>
 
-                {/* Address Section */}
                 <div className="mt-8">
                   <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
                     <MapPin className="w-6 h-6 text-blue-600" />

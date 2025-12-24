@@ -57,6 +57,30 @@ export default function Register() {
               <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
             )}
           </div>
+          <div className="space-y-2">
+            <label
+              className="block text-sm font-bold text-text-main-light dark:text-gray-300"
+              htmlFor="name"
+            >
+              NID No
+            </label>
+            <input
+              id="nidNo"
+              {...register('nidNo', { required: 'nid No is required' })}
+              className={`w-full px-4 py-3 border rounded bg-input-bg-light dark:bg-input-bg-dark text-text-main-light dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow duration-200
+                ${
+                  errors.name
+                    ? 'border-red-500'
+                    : 'border-input-border-light dark:border-input-border-dark'
+                }
+              `}
+              placeholder="nid No"
+              type="text"
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
+          </div>
 
           <div className="space-y-2">
             <label

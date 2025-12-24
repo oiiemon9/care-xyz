@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import { connect } from '@/app/lib/dbConnect';
 
 export const postUser = async (payload) => {
-  const { email, password, name } = payload;
+  const { email, password, name, nidNo } = payload;
   if (!email || !password) return null;
 
   const isExist = await connect('users').findOne({ email });
@@ -16,6 +16,7 @@ export const postUser = async (payload) => {
     provider: 'credentials',
     name,
     email,
+    nidNo,
     password: await bcrypt.hash(password, 14),
     role: 'user',
     createAt: new Date(),

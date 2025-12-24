@@ -2,7 +2,7 @@
 
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -10,6 +10,8 @@ import { toast } from 'react-toastify';
 export default function Login() {
   const route = useRouter();
   const [loading, setLoading] = useState(false);
+  const params = useSearchParams();
+  const callback = params.get('callbackUrl') || '/';
   const {
     register,
     handleSubmit,
@@ -25,7 +27,7 @@ export default function Login() {
     });
 
     if (result.ok) {
-      route.push('/');
+      route.push(callback || '/');
       toast.success('User Login Successful');
     } else {
       toast.error('Email or Password not valid');
