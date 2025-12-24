@@ -42,7 +42,7 @@ export default function ServiceOverview() {
             Our Trusted Care Services
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            Care.xyz offers reliable, professional, and compassionate caregiving
+            Care.io offers reliable, professional, and compassionate caregiving
             solutions tailored to your family’s unique needs — anytime,
             anywhere.
           </p>

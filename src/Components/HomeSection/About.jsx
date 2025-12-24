@@ -21,7 +21,7 @@ export default function About() {
           <div className="space-y-8">
             <div className="rounded-2xl">
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Care.xyz is a trusted platform that connects families with
+                Care.io is a trusted platform that connects families with
                 verified, compassionate caretakers for children, the elderly,
                 and individuals with special needs. Whether you need reliable
                 babysitting, elderly care, or specialized home support, we make

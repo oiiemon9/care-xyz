@@ -1,14 +1,46 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 
 import NavButtons from '../Buttons/NavButtons';
+import Link from 'next/link';
+import Logo from '../Logo/Logo';
 
 export default function NavBar() {
+  const [activeSection, setActiveSection] = useState('home');
+  const sections = ['home', 'about', 'services', 'testimonials'];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   return (
     <div className="bg-primary sticky top-0 z-50">
       <div className="navbar container mx-auto px-4">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-secondary lg:hidden mr-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -29,48 +61,39 @@ export default function NavBar() {
               tabIndex="-1"
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              <li>
-                <a>Item 1</a>
-              </li>
-              <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
+              {sections.map((sec) => (
+                <li key={sec}>
+                  <Link
+                    href={`/#${sec}`}
+                    className={` capitalize transition-colors  ${
+                      activeSection === sec
+                        ? ' font-bold border-b-2 border-blue-600'
+                        : ' hover:text-blue-500'
+                    }`}
+                  >
+                    {sec}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl text-white">daisyUI</a>
+
+          <Logo></Logo>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-white">
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2 bg-base-100 w-40 z-1">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+            {sections.map((sec) => (
+              <li key={sec}>
+                <Link
+                  href={`/#${sec}`}
+                  className={` capitalize transition-colors ${
+                    activeSection === sec ? ' bg-secondary' : ' '
+                  }`}
+                >
+                  {sec}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <NavButtons></NavButtons>

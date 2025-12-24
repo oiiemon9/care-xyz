@@ -2,6 +2,9 @@
 @plugin "daisyui" {
   themes: winter --default;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: var(--background);

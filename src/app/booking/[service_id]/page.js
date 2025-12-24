@@ -18,6 +18,7 @@ export default function BookingPage() {
   useEffect(() => {
     if (status === 'unauthenticated') {
       route.replace(`/login?callbackUrl=${path}`);
+      return;
     }
   }, [status, path]);
 

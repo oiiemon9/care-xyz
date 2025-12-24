@@ -1,6 +1,7 @@
 import About from '@/Components/HomeSection/About';
 import Hero from '@/Components/HomeSection/Hero';
 import ServiceOverview from '@/Components/HomeSection/ServiceOverview';
+import Testimonials from '@/Components/HomeSection/Testimonials';
 import Image from 'next/image';
 
 export const metadata = {
@@ -48,9 +49,18 @@ export const metadata = {
 export default function Home() {
   return (
     <div className="">
-      <Hero></Hero>
-      <About></About>
-      <ServiceOverview></ServiceOverview>
+      <div id="home">
+        <Hero></Hero>
+      </div>
+      <div id="about">
+        <About></About>
+      </div>
+      <div id="services">
+        <ServiceOverview></ServiceOverview>
+      </div>
+      <div id="testimonials">
+        <Testimonials></Testimonials>
+      </div>
     </div>
   );
 }

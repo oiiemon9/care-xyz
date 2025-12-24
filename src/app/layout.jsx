@@ -4,6 +4,7 @@ import NavBar from '@/Components/NavBar/NavBar';
 import { ToastContainer } from 'react-toastify';
 import NextAuthProvider from '@/provider/NextAuthProvider';
 import TanstackQuery from '@/provider/TanstackQuery';
+import Footer from '@/Components/Footer/Footer';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
           <TanstackQuery>
             <NavBar></NavBar>
             {children}
+            <Footer></Footer>
             <ToastContainer />
           </TanstackQuery>
         </body>
