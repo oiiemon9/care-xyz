@@ -75,13 +75,6 @@ export default function About() {
                 priority
               />
             </div>
-            {/* Subtle overlay badge */}
-            <div className="absolute -bottom-6 -right-6 bg-white rounded-full p-6 shadow-lg">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-primary">Trusted</p>
-                <p className="text-gray-600">Care Since 2023</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
