@@ -2,7 +2,7 @@
 import React from 'react';
 
 import Lottie from 'lottie-react';
-import loadingAnimation from '/public/loadingAnimation.json';
+import loadingAnimation from '/loadingAnimation.json';
 
 export default function LoaderAnimation() {
   return (
