@@ -1,6 +1,7 @@
 'use client';
 
 import { postUser } from '@/actions/server/auth';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -140,13 +141,13 @@ export default function Register() {
         </form>
 
         <div className="mt-6 text-center text-sm text-text-muted-light dark:text-gray-400">
-          Don't have an account?{' '}
-          <a
+          Already have an account?{' '}
+          <Link
             className="font-bold text-text-main-light dark:text-white hover:text-primary dark:hover:text-primary transition-colors duration-200"
-            href="#"
+            href={'/login'}
           >
-            Register here.
-          </a>
+            Login
+          </Link>
         </div>
       </div>
     </section>

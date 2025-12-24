@@ -1,6 +1,7 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -126,12 +127,12 @@ export default function Login() {
         </form>
         <div className="mt-6 text-center text-sm text-text-muted-light dark:text-gray-400">
           Don't have an account?{' '}
-          <a
+          <Link
             className="font-bold text-text-main-light dark:text-white hover:text-primary dark:hover:text-primary transition-colors duration-200"
-            href="#"
+            href={'/register'}
           >
             Register here.
-          </a>
+          </Link>
         </div>
       </div>
     </section>

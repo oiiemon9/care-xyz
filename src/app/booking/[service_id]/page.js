@@ -76,6 +76,12 @@ export default function BookingPage() {
       if (res.data.insertedId) {
         toast.success('Booking Successful');
         route.push('/');
+        await axios.post('/api/send-invoice', {
+          email: data.email,
+          serviceName: data.serviceTitle,
+          totalPrice: totalPrice,
+          orderId: res.data.insertedId,
+        });
       }
     } catch (error) {
       console.log(error);

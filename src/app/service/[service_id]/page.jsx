@@ -12,6 +12,102 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
+export async function generateMetadata({ params }) {
+  const { service_id } = await params;
+  const service = await getSingleService(service_id);
+
+  //   {
+  //     "_id": {
+  //         "buffer": {
+  //             "0": 105,
+  //             "1": 73,
+  //             "2": 64,
+  //             "3": 126,
+  //             "4": 68,
+  //             "5": 232,
+  //             "6": 55,
+  //             "7": 223,
+  //             "8": 220,
+  //             "9": 168,
+  //             "10": 240,
+  //             "11": 205
+  //         }
+  //     },
+  //     "title": "Elderly Care",
+  //     "subtitle": "Compassionate & Reliable Support for Seniors",
+  //     "shortDescription": "Personalized care for elderly loved ones to help them live comfortably at home.",
+  //     "fullDescription": "Our Elderly Care service is designed to support seniors with daily activities, medication management, companionship, and light household tasks. We understand the importance of dignity and independence, so our caregivers provide respectful, attentive care while promoting physical and mental well-being. Whether it’s help with bathing, meal preparation, walking, or just someone to talk to — we’re here to make life easier for both the elderly and their families.",
+  //     "features": [
+  //         "Trained & empathetic caregivers",
+  //         "Medication reminders & health monitoring",
+  //         "Companionship & engaging conversations",
+  //         "Assistance with mobility & personal care",
+  //         "Light housekeeping & meal preparation",
+  //         "24/7 availability & emergency response"
+  //     ],
+  //     "benefits": [
+  //         "Helps seniors stay independent at home",
+  //         "Reduces family stress & worry",
+  //         "Improves quality of life & emotional health",
+  //         "Safe & comfortable aging in place"
+  //     ],
+  //     "priceRange": "$ 1,200 – $ 2,000 per day",
+  //     "durationOptions": [
+  //         "4 hours",
+  //         "8 hours",
+  //         "12 hours",
+  //         "24 hours",
+  //         "Overnight",
+  //         "Live-in"
+  //     ],
+  //     "caregiverType": "Elderly Caregiver / Companion",
+  //     "image": "https://res.cloudinary.com/dzfrakxek/image/upload/v1766401044/doctor-with-old-man-wheelchair-w_aij22r.png",
+  //     "icon": "Heart",
+  //     "pricePerHour": 50
+  // }
+
+  return {
+    title: `${service.title} Service in Bangladesh – Care.IO`,
+    description:
+      service.shortDescription ||
+      `Book trusted ${service.title} service at home with Care.IO. Safe, reliable and professional caregivers in Bangladesh.`,
+    keywords: [
+      `${service.title} service Bangladesh`,
+      'baby care service',
+      'elderly care service',
+      'home care booking',
+      'caregiver platform Bangladesh',
+      'Care.IO',
+    ],
+    openGraph: {
+      title: `${service.title} – Care.IO Home Care Services`,
+      description: service.fullDescription,
+      url: `${process.env.NEXT_PUBLIC_SITE_DOMAIN}/service/${service_id}`,
+      siteName: 'Care.IO',
+      images: [
+        {
+          url:
+            service.image ||
+            'https://res.cloudinary.com/dzfrakxek/image/upload/v1766390311/2151231527_cepuae.jpg',
+          width: 1200,
+          height: 630,
+          alt: service.title,
+        },
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${service.title} – Care.IO`,
+      description: service.fullDescription,
+      images: [
+        service.image ||
+          'https://res.cloudinary.com/dzfrakxek/image/upload/v1766390311/2151231527_cepuae.jpg',
+      ],
+    },
+  };
+}
+
 export default async function serviceInfo({ params }) {
   const { service_id } = await params;
   const service = await getSingleService(service_id);
